@@ -8,6 +8,11 @@
             height: 325px;
             width: 230px;
         }
+
+        textarea{
+            width: 200px;
+            height: 200px;
+        }
     </style>
 
     <style media="print">
@@ -18,13 +23,14 @@
 <textarea class="no-print"> </textarea>
 <button class="no-print" onclick="buildProxies()">AÑADIR</button>
 <button class="no-print" onclick="window.print()">IMPRIMIR</button>
+<button class="no-print" onclick="cleanScreen()">LIMPIAR</button>
 
 <div id="proxy-container"></div>
 
 </body>
 <script>
     let allData = []
-    const ES_ID = "231"
+
     const addCard = (btCard) => {
         const {imageUrl} = filterCard(btCard)
         const imageTemplate = buildImage(imageUrl)
@@ -32,7 +38,7 @@
     }
 
     const filterCard = (value) => {
-        return allData.find(({cardid,language}) => cardid === value && language === ES_ID)
+        return allData.find(({cardid,language}) => cardid === value)
     }
 
     const buildImage = (imageUrl) => {
@@ -42,8 +48,7 @@
     }
 
     const buildProxies = () => {
-        const text = document.querySelector('textarea').value
-
+        const text = document.querySelector('textarea').value.replace('// Digimon DeckList', '').trim()
         const textSplit = text.split(/\n/).join('').split(' ').filter(text => text !== '')
         const bts = textSplit.filter(text => text.includes('-'))
         const quantitys = textSplit.filter(text => parseInt(text))
@@ -53,6 +58,10 @@
                 addCard(btCard)
             }
         })
+    }
+
+    const cleanScreen = () => {
+        document.querySelector('#proxy-container').innerHTML = ''
     }
 
     fetch('data.json')
