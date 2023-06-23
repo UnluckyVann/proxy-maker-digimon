@@ -66,7 +66,7 @@
         document.querySelector('#proxy-container').innerHTML = ''
     }
 
-    fetch('data.json')
+    fetch(`data.json?${Math. floor((Math. random() * 1000000) + 1)}`)
         .then(result => {
             return result.json()
         })
